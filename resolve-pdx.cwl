@@ -18,13 +18,17 @@ requirements:
 
 inputs:
   read_pair:
-    type: 'File[]'
+    type: 
+      type: array
+      items:
+        type: array
+        items: File 
   
   sample_id:
     type: string
 
   lane_id:
-    type: string
+    type: 'string[]' 
 
   mouse_reference:
     type: File
@@ -49,27 +53,29 @@ inputs:
 outputs:
   human_bam: 
     type: File
-    outputSource: align_to_human/output_bam
+    outputSource: align_to_human/output_md_bam
 
   mouse_bam:
     type: File
-    outputSource: align_to_mouse/output_bam
+    outputSource: align_to_mouse/output_md_bam
 
 steps:
   align_to_human:
-    run: cwl-commandlinetools/bwa_mem_0.7.12/bwa_mem_0.7.12.cwl 
+    run: align_sample/align_sample.cwl 
     in:
       reference_sequence: human_reference
       read_pair: read_pair
-      sample_id: sample_id
+      sample_id:
+        valueFrom: ${ return inputs.sample_id + "_human"; }
       lane_id: lane_id
-    out: [ output_bam ]
+    out: [ output_md_bam ]
 
   align_to_mouse:
-    run: cwl-commandlinetools/bwa_mem_0.7.12/bwa_mem_0.7.12.cwl 
+    run: align_sample/align_sample.cwl 
     in:
       reference_sequence: mouse_reference
       read_pair: read_pair
-      sample_id: sample_id
+      sample_id: 
+        valueFrom: ${ return inputs.sample_id + "_mouse"; }
       lane_id: lane_id
-    out: [ output_bam ]
+    out: [ output_md_bam ]

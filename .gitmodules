@@ -4,3 +4,6 @@
 [submodule "align_sort_bam"]
 	path = align_sort_bam
 	url = https://github.com/mskcc/align_sort_bam.git
+[submodule "align_sample"]
+	path = align_sample
+	url = https://github.com/mskcc/align_sample.git
