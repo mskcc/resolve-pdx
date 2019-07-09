@@ -89,7 +89,7 @@ steps:
     in:
       prefix: sample_id
       output_dir:
-        valueFrom: ${ inputs.sample_id + "_disambiguated"; }
+        valueFrom: ${ return inputs.sample_id + "_disambiguated"; }
       species_a_bam: align_to_human/output_md_bam
       species_b_bam: align_to_mouse/output_md_bam
     out: [ output ]
