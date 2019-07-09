@@ -59,6 +59,10 @@ outputs:
     type: File
     outputSource: align_to_mouse/output_md_bam
 
+  disambiguate_output_dir:
+    type: Directory
+    outputSource: run_disambiguate/output
+
 steps:
   align_to_human:
     run: align_sample/align_sample.cwl 
@@ -79,3 +83,13 @@ steps:
         valueFrom: ${ return inputs.sample_id + "_mouse"; }
       lane_id: lane_id
     out: [ output_md_bam ]
+
+  run_disambiguate:
+    run: cwl-commandlinetools/disambiguate_1.0.0/disambiguate_1.0.0.cwl
+    in:
+      prefix: sample_id
+      output_dir:
+        valueFrom: ${ inputs.sample_id + "_disambiguated"; }
+      species_a_bam: align_to_human/output_md_bam
+      species_b_bam: align_to_mouse/output_md_bam
+    out: [ output ]
