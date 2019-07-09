@@ -1,3 +1,6 @@
 [submodule "cwl-commandlinetools"]
 	path = cwl-commandlinetools
 	url = https://github.com/mskcc/cwl-commandlinetools
+[submodule "align_sort_bam"]
+	path = align_sort_bam
+	url = https://github.com/mskcc/align_sort_bam.git
