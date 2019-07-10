@@ -17,12 +17,11 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
-  read_pair:
-    type: 
-      type: array
-      items:
-        type: array
-        items: File 
+  r1:
+    type: 'File[]'
+
+  r2:
+    type: 'File[]'
   
   sample_id:
     type: string
@@ -69,7 +68,8 @@ steps:
     in:
       prefix: sample_id
       reference_sequence: human_reference
-      read_pair: read_pair
+      r1: r1
+      r2: r2
       sample_id:
         valueFrom: ${ return inputs.prefix + "_human"; }
       lane_id: lane_id
@@ -80,7 +80,8 @@ steps:
     in:
       prefix: sample_id
       reference_sequence: mouse_reference
-      read_pair: read_pair
+      r1: r1
+      r2: r2
       sample_id: 
         valueFrom: ${ return inputs.prefix + "_mouse"; }
       lane_id: lane_id
