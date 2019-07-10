@@ -67,20 +67,22 @@ steps:
   align_to_human:
     run: align_sample/align_sample.cwl 
     in:
+      prefix: sample_id
       reference_sequence: human_reference
       read_pair: read_pair
       sample_id:
-        valueFrom: ${ return inputs.sample_id + "_human"; }
+        valueFrom: ${ return inputs.prefix + "_human"; }
       lane_id: lane_id
     out: [ output_md_bam ]
 
   align_to_mouse:
     run: align_sample/align_sample.cwl 
     in:
+      prefix: sample_id
       reference_sequence: mouse_reference
       read_pair: read_pair
       sample_id: 
-        valueFrom: ${ return inputs.sample_id + "_mouse"; }
+        valueFrom: ${ return inputs.prefix + "_mouse"; }
       lane_id: lane_id
     out: [ output_md_bam ]
 
@@ -88,6 +90,8 @@ steps:
     run: cwl-commandlinetools/disambiguate_1.0.0/disambiguate_1.0.0.cwl
     in:
       prefix: sample_id
+      aligner: 
+        valueFrom: ${ return "bwa"; }
       output_dir:
         valueFrom: ${ return inputs.prefix + "_disambiguated"; }
       species_a_bam: align_to_human/output_md_bam
