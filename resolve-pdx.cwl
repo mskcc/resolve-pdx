@@ -50,14 +50,6 @@ inputs:
       - .fai
 
 outputs:
-  human_bam: 
-    type: File
-    outputSource: align_to_human/output_md_bam
-
-  mouse_bam:
-    type: File
-    outputSource: align_to_mouse/output_md_bam
-
   disambiguate_output_dir:
     type: Directory
     outputSource: run_disambiguate/output
@@ -73,7 +65,7 @@ steps:
       sample_id:
         valueFrom: ${ return inputs.prefix + "_human"; }
       lane_id: lane_id
-    out: [ output_md_bam ]
+    out: [ output_merge_sort_bam ]
 
   align_to_mouse:
     run: align_sample/align_sample.cwl 
@@ -85,7 +77,7 @@ steps:
       sample_id: 
         valueFrom: ${ return inputs.prefix + "_mouse"; }
       lane_id: lane_id
-    out: [ output_md_bam ]
+    out: [ output_merge_sort_bam ]
 
   run_disambiguate:
     run: cwl-commandlinetools/disambiguate_1.0.0/disambiguate_1.0.0.cwl
@@ -95,6 +87,6 @@ steps:
         valueFrom: ${ return "bwa"; }
       output_dir:
         valueFrom: ${ return inputs.prefix + "_disambiguated"; }
-      species_a_bam: align_to_human/output_md_bam
-      species_b_bam: align_to_mouse/output_md_bam
+      species_a_bam: align_to_human/output_merge_sort_bam
+      species_b_bam: align_to_mouse/output_merge_sort_bam
     out: [ output ]
