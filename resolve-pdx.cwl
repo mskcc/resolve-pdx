@@ -79,6 +79,20 @@ steps:
       lane_id: lane_id
     out: [ output_merge_sort_bam ]
 
+  name_sort_human:
+    run: cwl-commandlinetools/samtools_sort_1.3.1/samtools_sort_1.3.1.cwl
+    in:
+      input: align_to_human/output_merge_sort_bam
+      sort_by_name: true
+    out: [ output_file ]
+
+  name_sort_mouse:
+    run: cwl-commandlinetools/samtools_sort_1.3.1/samtools_sort_1.3.1.cwl
+    in:
+      input: align_to_mouse/output_merge_sort_bam
+      sort_by_name: true
+    out: [ output_file ]
+
   run_disambiguate:
     run: cwl-commandlinetools/disambiguate_1.0.0/disambiguate_1.0.0.cwl
     in:
@@ -87,6 +101,6 @@ steps:
         valueFrom: ${ return "bwa"; }
       output_dir:
         valueFrom: ${ return inputs.prefix + "_disambiguated"; }
-      species_a_bam: align_to_human/output_merge_sort_bam
-      species_b_bam: align_to_mouse/output_merge_sort_bam
+      species_a_bam: name_sort_human/output_file
+      species_b_bam: name_sort_mouse/output_file
     out: [ output ]
