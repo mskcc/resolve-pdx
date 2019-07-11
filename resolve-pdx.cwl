@@ -83,14 +83,16 @@ steps:
     run: cwl-commandlinetools/samtools_sort_1.3.1/samtools_sort_1.3.1.cwl
     in:
       input: align_to_human/output_merge_sort_bam
-      sort_by_name: true
+      sort_by_name:
+        valueFrom: ${ return true; } 
     out: [ output_file ]
 
   name_sort_mouse:
     run: cwl-commandlinetools/samtools_sort_1.3.1/samtools_sort_1.3.1.cwl
     in:
       input: align_to_mouse/output_merge_sort_bam
-      sort_by_name: true
+      sort_by_name:
+        valueFrom: ${ return true; }
     out: [ output_file ]
 
   run_disambiguate:
