@@ -50,9 +50,12 @@ inputs:
       - .fai
 
 outputs:
-  disambiguate_output_dir:
-    type: Directory
-    outputSource: run_disambiguate/output
+  disambiguate_bam:
+    type: File
+    outputSource: run_disambiguate/disambiguate_a_bam
+  summary:
+    type: File
+    outputSource: run_disambiguate/summary
 
 steps:
   align_to_human:
@@ -105,4 +108,4 @@ steps:
         valueFrom: ${ return inputs.prefix + "_disambiguated"; }
       species_a_bam: name_sort_human/output_file
       species_b_bam: name_sort_mouse/output_file
-    out: [ output ]
+    out: [ disambiguate_a_bam, disambiguate_b_bam, summary ]
