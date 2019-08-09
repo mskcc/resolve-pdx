@@ -10,7 +10,7 @@ cwlVersion: v1.0
 class: Workflow
 id: resolve-pdx
 requirements:
-  StepInputExpressionRequirement: {} 
+  StepInputExpressionRequirement: {}
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
@@ -18,27 +18,27 @@ requirements:
 
 inputs:
   r1:
-    type: 'File[]'
+    type: File[]
 
   r2:
-    type: 'File[]'
-  
+    type: File[]
+
   sample_id:
     type: string
 
   lane_id:
-    type: 'string[]' 
+    type: string[]
 
   mouse_reference:
     type: File
-    secondaryFiles: 
+    secondaryFiles:
       - .amb
       - .ann
       - .bwt
       - .pac
       - .sa
       - .fai
-    
+
   human_reference:
     type: File
     secondaryFiles:
@@ -56,7 +56,7 @@ outputs:
 
 steps:
   align_to_human:
-    run: align_sample/align_sample.cwl 
+    run: align_sample/align_sample.cwl
     in:
       prefix: sample_id
       reference_sequence: human_reference
@@ -68,13 +68,13 @@ steps:
     out: [ output_merge_sort_bam ]
 
   align_to_mouse:
-    run: align_sample/align_sample.cwl 
+    run: align_sample/align_sample.cwl
     in:
       prefix: sample_id
       reference_sequence: mouse_reference
       r1: r1
       r2: r2
-      sample_id: 
+      sample_id:
         valueFrom: ${ return inputs.prefix + "_mouse"; }
       lane_id: lane_id
     out: [ output_merge_sort_bam ]
@@ -84,7 +84,7 @@ steps:
     in:
       input: align_to_human/output_merge_sort_bam
       sort_by_name:
-        valueFrom: ${ return true; } 
+        valueFrom: ${ return true; }
     out: [ output_file ]
 
   name_sort_mouse:
@@ -99,7 +99,7 @@ steps:
     run: cwl-commandlinetools/disambiguate_1.0.0/disambiguate_1.0.0.cwl
     in:
       prefix: sample_id
-      aligner: 
+      aligner:
         valueFrom: ${ return "bwa"; }
       output_dir:
         valueFrom: ${ return inputs.prefix + "_disambiguated"; }
