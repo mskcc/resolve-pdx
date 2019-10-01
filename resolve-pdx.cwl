@@ -1,12 +1,5 @@
 #!/usr/bin/env cwl-runner
-
-$namespaces:
-  dct: http://purl.org/dc/terms/
-  foaf: http://xmlns.com/foaf/0.1/
-  doap: http://usefulinc.com/ns/doap#
-
 cwlVersion: v1.0
-
 class: Workflow
 id: resolve-pdx
 requirements:
